@@ -10,7 +10,7 @@ public:
         return 2;
 }
 };
-#i guess there is issue with multiple case in c plues progarming try with java;
+#i guess there is issue with multiple case in c plues progarm try with java;
 #JAVA CODE
 
 class Solution {

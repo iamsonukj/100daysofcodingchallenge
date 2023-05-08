@@ -1,0 +1,13 @@
+problem link:- https://practice.geeksforgeeks.org/problems/7488b7721e8aa5e5fc37d56af8b9c89e329c796f/1
+
+//User function Template for C++
+
+class Solution{
+    public:
+        int modulo(string s,int m)
+        {
+            int ans=0;
+            for(auto &i: s) ans = (ans*2 + i-'0')%m;
+            return ans;
+}
+};

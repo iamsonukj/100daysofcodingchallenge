@@ -1,0 +1,40 @@
+Problem link:-https://practice.geeksforgeeks.org/problems/cbd515a00f6537180d2e66f1ffe11093a128e560/1
+
+//User function Template for C++
+
+class Solution{
+public:
+    int totalCuts(int N,int K,vector<int> &A){
+        // Code here
+        
+        int largest[N],smallest[N];;
+        
+        largest[0]=A[0];
+        smallest[N-1]=A[N-1];
+        
+        for(int i=1;i<N;i++)
+        {
+            largest[i]=max(largest[i-1],A[i]);
+        }
+        
+        for(int i=N-2;i>=0;i--)
+        {
+            smallest[i]=min(smallest[i+1],A[i]);
+            
+        }
+        
+        int count=0;
+        
+        
+        for(int i=1;i<N;i++)
+        {
+            if(smallest[i]+largest[i-1]>=K)
+            {
+                count++;
+            }
+        }
+        
+        
+        return count;
+}
+};

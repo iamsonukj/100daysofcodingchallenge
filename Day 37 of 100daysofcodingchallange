@@ -1,0 +1,52 @@
+Problem link:-https://leetcode.com/problems/stone-game-iii/
+
+class Solution {
+    int[] memo;
+    int[] prefixSum;
+    int n;
+    public String stoneGameIII(int[] stoneValue) {
+        n = stoneValue.length;
+        memo = new int[n];
+        Arrays.fill(memo, -1);
+
+        prefixSum = new int[n + 1];
+        prefixSum[0] = 0;
+
+        for(int i = 1; i <= n; i++){
+            prefixSum[i] = stoneValue[i - 1] + prefixSum[i - 1];
+        }
+
+        int aliceScore = dp(0);
+        int bobScore = prefixSum[n] - aliceScore;
+
+        if(bobScore < aliceScore){
+            return "Alice";
+        }
+        if(bobScore > aliceScore){
+            return "Bob";
+        }
+        return "Tie";
+        
+    }
+
+    private int dp(int idx){
+        if(idx >= n){
+            return 0;       
+        }
+
+        if(memo[idx] == -1){
+            int maxVal = Integer.MIN_VALUE;
+            for(int i = 1; i <= 3; i++){
+                int sel = idx + i - 1;
+                if(sel >= n){
+                    break;
+                }
+                int maxOppScore = dp(sel + 1);
+                maxVal = Math.max(maxVal, prefixSum[n] - prefixSum[idx] - maxOppScore);
+            }
+
+            memo[idx] = maxVal;
+        }
+        return memo[idx];
+    }
+}

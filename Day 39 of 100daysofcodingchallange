@@ -1,0 +1,56 @@
+#problem link:-https://practice.geeksforgeeks.org/problems/camelcase-pattern-matching2259/1
+#leetcode problem link;-https://leetcode.com/problems/design-parking-system/submissions/959506108/
+
+#geeks code:-
+class Solution {
+  public:
+vector<string> CamelCase(int n, vector<string> dictionary, string pattern) {
+        // code here
+        
+        vector<string> ans;
+        
+        for(int i = 0; i < n; i++)
+        {
+            string s = dictionary[i];
+            string x = "";
+            for(int j = 0; j < s.length(); j++)
+            {
+                if(s[j] >= 'A' && s[j] <= 'Z')
+                    x += s[j];
+                if(x == pattern)
+                {
+                    ans.push_back(s);
+                    break;
+                }
+            }
+        }
+        if(ans.size() == 0)
+            return {"-1"};
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
+#leetcode:-
+class ParkingSystem {
+    int[] space;
+
+    public ParkingSystem(int big, int medium, int small) {
+        space = new int[]{big, medium, small}; 
+    }
+    
+    public boolean addCar(int carType) {
+        if(space[carType - 1] == 0){
+            return false;
+        }
+
+        space[carType - 1]--;
+        return true;
+    }
+}
+
+/**
+ * Your ParkingSystem object will be instantiated and called as such:
+ * ParkingSystem obj = new ParkingSystem(big, medium, small);
+ * boolean param_1 = obj.addCar(carType);
+ */

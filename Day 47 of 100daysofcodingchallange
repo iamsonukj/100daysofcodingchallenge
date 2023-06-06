@@ -1,0 +1,103 @@
+Problem link:-https://practice.geeksforgeeks.org/problems/predecessor-and-successor/1
+leetproblem link:-https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/
+geekscode:-
+/* BST Node
+struct Node
+{
+	int key;
+	struct Node *left;
+	struct Node *right;
+	
+	Node(int x){
+	    key = x;
+	    left = NULL;
+	    right = NULL;
+	}
+};
+*/
+
+// This function finds predecessor and successor of key in BST.
+// It sets pre and suc as predecessor and successor respectively
+class Solution
+{
+    public:
+    
+    void solve(Node* root, Node*&pre, Node*& suc, int key){
+        
+        if(root == nullptr) return ;
+        
+        if(root -> key > key){
+            if(suc == nullptr) suc = root;
+            else{
+                if(root -> key < suc -> key) suc = root;
+            }
+            solve(root -> left, pre, suc, key);
+        }
+        else if(root -> key < key){
+            if(pre == nullptr) pre = root;
+            else{
+                if(root -> key > pre -> key) pre = root;
+            }
+            solve(root -> right, pre, suc, key);
+        }
+        else{
+            solve(root -> left, pre, suc, key);
+            solve(root -> right, pre, suc, key);
+        }
+        
+    }
+    
+    
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        
+        solve(root, pre, suc, key);
+    }
+};
+leetcode:-
+
+class Solution {
+    public boolean canMakeArithmeticProgression(int[] arr) {
+        
+        int n = arr.length;
+
+        int minNumber = Integer.MAX_VALUE;
+        int maxNumber = Integer.MIN_VALUE;
+
+        for (int num : arr)
+        {
+            if (minNumber > num)
+                minNumber  = num;
+            if (maxNumber < num)
+                maxNumber = num;
+        }
+
+        if ((maxNumber - minNumber) % (n - 1) != 0)
+            return false;
+
+        int difference = (maxNumber - minNumber) / (n - 1);
+
+        int i = 0;
+
+        while (i < n)
+        {
+            if (arr[i] == minNumber + difference * i)
+                i++;
+            else if ((arr[i] - minNumber) % difference != 0)
+                return false;
+            else
+            {
+                int pos = (arr[i] - minNumber) / difference;
+
+                if (pos < i || arr[pos] == arr[i])
+                    return false;
+
+                int tmp = arr[pos];
+                arr[pos] = arr[i];
+                arr[i] = tmp;
+            }
+        }
+
+        return true;
+    }
+}

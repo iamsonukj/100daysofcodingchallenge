@@ -1,0 +1,26 @@
+geeksforgeeks Problem link:-https://practice.geeksforgeeks.org/problems/least-prime-factor5216/1
+geekscode:-
+// User function Template for C++
+class Solution {
+  public:
+    vector<int> leastPrimeFactor(int n) {
+        // code here
+        vector<int>ans;
+        int least=1;
+        for(int i=1;i<=n;i++){
+            if(i==1){
+                ans.push_back(least);
+            }
+            else{
+            for(int j=2;j<=n;j++){
+                if(i%j==0){
+                    least=j;
+                    break;
+                }
+            }
+            }
+            ans.push_back(least);
+        }
+        return ans;
+    }
+};

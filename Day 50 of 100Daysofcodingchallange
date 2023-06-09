@@ -1,0 +1,46 @@
+geeks Problem link;- https://practice.geeksforgeeks.org/problems/permutations-of-a-given-string2041/1
+leet problem link:- https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/
+geekscode:
+class Solution
+{
+    
+    
+    void solve(set<string>&ans,string&S,int i){
+        if(i==S.size()){
+            ans.insert(S);
+            return ;
+        }
+        for(int j=i;j<S.size();j++){
+            swap(S[i],S[j]);
+            solve(ans,S,i+1);
+            swap(S[i],S[j]);
+        }
+    }
+	public:
+		vector<string>find_permutation(string S)
+		{
+		    set<string>ans;
+		    solve(ans,S,0);
+		    vector<string>res(ans.begin(),ans.end());
+		    return res;
+		    
+		}
+};
+leetcode:-
+
+class Solution {
+public char nextGreatestLetter(char[] letters, char target) {
+int left = 0;
+int right = letters.length-1;
+while(left<=right){
+int mid = left +(right-left)/2;
+if(letters[mid]>target){
+right=mid-1;
+}
+else{
+left = mid+1;
+}
+}
+return letters[left%letters.length];
+}
+}

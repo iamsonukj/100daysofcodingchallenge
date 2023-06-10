@@ -1,0 +1,46 @@
+geeks Problem link;-https://practice.geeksforgeeks.org/problems/arranging-the-array1131/1
+leet problem link:-https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/
+
+geeks code;-
+
+class Solution
+{
+    public:
+        void Rearrange(int arr[], int n)
+        {
+            // Your code goes here
+            int j = 0;
+            vector<int> v;
+            for(int i = 0; i < n; i++) {
+                if(arr[i] >= 0) v.push_back(arr[i]);
+                else arr[j++] = arr[i];
+            }
+            for(int i = 0; i < v.size(); i++) arr[j++] = v[i];
+        }
+};
+
+leet code:-
+class Solution {
+    public int maxValue(int n, int index, int maxSum) {
+        int left = 0, right = maxSum - n;
+
+        while (left < right) {
+            int middle = (left + right + 1) / 2;
+            if (isPossible(n, index, maxSum - n, middle))
+                left = middle;
+            else
+                right = middle - 1;
+        }
+        return left + 1;
+    }
+
+    private boolean isPossible(int n, int index, int maxSum, int value) {
+        int leftValue = Math.max(value - index, 0);
+        int rightValue = Math.max(value - ((n - 1) - index), 0);
+
+        long sumBefore = (long) (value + leftValue) * (value - leftValue + 1) / 2;
+        long sumAfter = (long) (value + rightValue) * (value - rightValue + 1) / 2;
+
+        return sumBefore + sumAfter - value <= maxSum;
+    }
+}

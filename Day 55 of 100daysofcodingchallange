@@ -1,0 +1,51 @@
+geeks Problem link:-https://practice.geeksforgeeks.org/problems/chinky-and-diamonds3340/1
+leet problem link:-https://leetcode.com/problems/minimum-absolute-difference-in-bst/
+
+geekscode:-
+class Solution {
+  public:
+    long long maxDiamonds(int arr[], int N, int K) {
+        priority_queue<long long int> pq;
+        for(long long int i=0;i<N;i++)
+            pq.push(arr[i]);
+        long long int ans=0;
+        for(long long int i=0;i<K;i++)
+        {
+            long long int x=pq.top();
+            ans+=pq.top();
+            x/=2;
+            pq.pop();
+            // if(x!=0)
+                pq.push(x);
+        }
+        
+        return ans;
+    }
+};
+
+leetcode:
+class Solution {
+    private int minDiff = Integer.MAX_VALUE;
+    private Integer prevVal = null;
+    
+    public int getMinimumDifference(TreeNode root) {
+        inorderTraversal(root);
+        return minDiff;
+    }
+    
+    private void inorderTraversal(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        
+        inorderTraversal(node.left);
+        
+        if (prevVal != null) {
+            minDiff = Math.min(minDiff, Math.abs(node.val - prevVal));
+        }
+        
+        prevVal = node.val;
+        
+        inorderTraversal(node.right);
+    }
+}

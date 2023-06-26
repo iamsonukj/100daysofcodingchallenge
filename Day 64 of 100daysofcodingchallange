@@ -1,0 +1,55 @@
+Geeks Problem link;- https://practice.geeksforgeeks.org/problems/ncr1019/1
+Leet Problem link;- https://leetcode.com/problems/total-cost-to-hire-k-workers/
+//geekscode//
+
+class Solution{
+public:
+    int nCr(int n, int r){
+        // code here
+        if(n<r) return 0;
+        if((n-r)<r) r= n-r;  
+        int MOD = 1000000007;
+        
+        int dp[r+1]; //1 available in every col 
+        memset(dp, 0, sizeof(dp));
+        dp[0] = 1;  //starting from 1
+        for(int i=1; i<=n; i++){
+            for(int j= min(r,i); j>0; j--){
+                dp[j] = (dp[j] + dp[j-1])%MOD;
+            }
+        }
+        return dp[r];
+    }
+
+};
+//leetcode//
+class Solution {
+    public long totalCost(int[] costs, int k, int candidates) {
+        int i = 0;
+        int j = costs.length - 1;
+        PriorityQueue<Integer> pq1 = new PriorityQueue<>();
+        PriorityQueue<Integer> pq2 = new PriorityQueue<>();
+
+        long ans = 0;
+        while (k-- > 0) {
+            while (pq1.size() < candidates && i <= j) {
+                pq1.offer(costs[i++]);
+            }
+            while (pq2.size() < candidates && i <= j) {
+                pq2.offer(costs[j--]);
+            }
+
+            int t1 = pq1.size() > 0 ? pq1.peek() : Integer.MAX_VALUE;
+            int t2 = pq2.size() > 0 ? pq2.peek() : Integer.MAX_VALUE;
+
+            if (t1 <= t2) {
+                ans += t1;
+                pq1.poll();
+            } else {
+                ans += t2;
+                pq2.poll();
+            }
+        }
+        return ans;
+    }
+}

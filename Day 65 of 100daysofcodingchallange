@@ -1,0 +1,88 @@
+geeks problem link:- https://practice.geeksforgeeks.org/problems/union-of-two-linked-list/1
+Leet problem link:-  https://leetcode.com/problems/find-k-pairs-with-smallest-sums/solutions/3686903/daily-leetcoding-challenge-june-day-27/
+geekscode:-
+/*
+// structure of the node is as follows
+
+struct Node
+{
+	int data;
+	struct Node* next;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	}
+	
+};
+
+*/
+class Solution
+{
+    public:
+    struct Node* makeUnion(struct Node* head1, struct Node* head2)
+    {
+        // code here
+        set<int> st;
+        while(head1!=NULL)
+        {
+            st.insert(head1->data);
+            head1=head1->next;
+        }
+        
+         while(head2!=NULL)
+        {
+            st.insert(head2->data);
+            head2=head2->next;
+        }
+        auto i =st.begin();
+        struct Node *tem=new Node(*i);
+        i++;
+        struct Node *ans=tem;
+       while(i!=st.end())
+        {
+            struct Node* tem=new Node(*i);
+            ans->next=tem;
+            ans=tem;
+            i++;
+        }
+        return tem;
+    }
+};
+
+leetcode:
+
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0 || k <= 0) {
+            return res;
+        }
+        
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] + a[1] - b[0] - b[1]);
+        Set<String> visited = new HashSet<>();
+        
+        heap.offer(new int[]{nums1[0], nums2[0], 0, 0});
+        visited.add("0,0");
+        
+        while (k > 0 && !heap.isEmpty()) {
+            int[] curr = heap.poll();
+            int i = curr[2];
+            int j = curr[3];
+            res.add(List.of(curr[0], curr[1]));
+            k--;
+            
+            if (i + 1 < nums1.length && !visited.contains((i + 1) + "," + j)) {
+                heap.offer(new int[]{nums1[i + 1], nums2[j], i + 1, j});
+                visited.add((i + 1) + "," + j);
+            }
+            
+            if (j + 1 < nums2.length && !visited.contains(i + "," + (j + 1))) {
+                heap.offer(new int[]{nums1[i], nums2[j + 1], i, j + 1});
+                visited.add(i + "," + (j + 1));
+            }
+        }
+        
+        return res;
+    }
+}

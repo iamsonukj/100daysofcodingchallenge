@@ -1,0 +1,83 @@
+geeks Problem link;- https://practice.geeksforgeeks.org/problems/copy-set-bits-in-range0623/1
+Leet Problwm link;- https://leetcode.com/problems/maximum-number-of-achievable-transfer-requests/description/
+Geeks code;-
+// User function Template for C++
+class Solution{
+    public:
+
+    string toBinary(int n)
+    {
+        string s = "00000000000000000000000000000000";
+        int i = 31;
+        while(n){
+            int d = n%2;
+            if(d == 1){
+                s[i] = '1';
+            }
+            i--;
+            n = n/2;
+        }
+        return s;
+    }
+    int setSetBit(int x, int y, int l, int r){
+        
+        string a = toBinary(x);
+        string b = toBinary(y);
+        
+        for(int i=32-l; i>=32-r; i--){
+            if(b[i] == '1' && a[i] == '0'){
+                a[i] = '1';
+            }
+        }
+        return stoi(a, NULL, 2);
+        
+    }
+};
+
+leetcode;
+
+class Solution {
+    public int maximumRequests(int n, int[][] req) {
+        for (int k = req.length; k > 0; k--) {
+            List<List<Integer>> combinations = generateCombinations(req.length, k);
+            for (List<Integer> c : combinations) {
+                int[] degree = new int[n];
+                for (int i : c) {
+                    degree[req[i][0]]--;
+                    degree[req[i][1]]++;
+                }
+                if (allZeroes(degree)) {
+                    return k;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private List<List<Integer>> generateCombinations(int n, int k) {
+        List<List<Integer>> combinations = new ArrayList<>();
+        backtrack(combinations, new ArrayList<>(), 0, n, k);
+        return combinations;
+    }
+
+    private void backtrack(List<List<Integer>> combinations, List<Integer> current, int start, int n, int k) {
+        if (k == 0) {
+            combinations.add(new ArrayList<>(current));
+            return;
+        }
+        for (int i = start; i < n; i++) {
+            current.add(i);
+            backtrack(combinations, current, i + 1, n, k - 1);
+            current.remove(current.size() - 1);
+        }
+    }
+
+    private boolean allZeroes(int[] arr) {
+        for (int num : arr) {
+            if (num != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

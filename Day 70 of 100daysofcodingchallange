@@ -1,0 +1,67 @@
+Geeks Problem link:- https://practice.geeksforgeeks.org/problems/maximum-index3307/1
+Leet Problem link:- https://leetcode.com/problems/buddy-strings/description/
+
+#Geekscode;-
+class Solution{
+public:
+    int maxIndexDiff(int arr[], int n) {
+        int right[n],left[n];
+        left[0]=arr[0];
+        right[n-1]=arr[n-1];
+        for(int i=1;i<n;i++){
+            left[i]=min(arr[i],left[i-1]);
+        }
+        for(int j=n-2;j>=0;j--){
+            right[j]=max(arr[j],right[j+1]);
+        }
+        int i=0, j=0,ans=INT_MIN;
+        while(i<n&&j<n){
+            if(left[i]<=right[j]){
+                ans=max(ans,j-i);
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+            
+        return ans;
+    }
+        
+};
+
+##Leetcode:-
+class Solution {
+    public boolean buddyStrings(String s, String goal) {
+        int ns = s.length();
+        int ng = goal.length();
+        
+        if (ns != ng) {
+            return false;
+        }
+        
+        if (s.equals(goal)) {
+            int[] farr = new int[26];
+            for (char ch : s.toCharArray()) {
+                farr[ch - 'a']++;
+                if (farr[ch - 'a'] == 2) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        ArrayList<Integer>ans=new ArrayList<>();
+        //int count = 0;
+        for (int i = 0; i < ns; i++) {
+            if (s.charAt(i) != goal.charAt(i)) {
+               ans.add(i);
+                if (ans.size()> 2) {
+                    return false;
+                }
+            }
+        }
+        
+        return ans.size() == 2 && s.charAt(ans.get(0)) == goal.charAt(ans.get(1)) && s.charAt(ans.get(1)) == goal.charAt(ans.get(0));
+    }
+}

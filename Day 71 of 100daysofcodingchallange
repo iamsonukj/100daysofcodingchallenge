@@ -1,0 +1,48 @@
+Geeks Problem link;- https://practice.geeksforgeeks.org/problems/count-the-subarrays-having-product-less-than-k1708/1
+Leet Problem Link;- https://leetcode.com/problems/single-number-ii/description/
+
+Geeks Code;-
+
+class Solution{
+  public:
+    int countSubArrayProductLessThanK(const vector<int>& a, int n, long long k) {
+        long long i=0,j,countProduct,count=0;
+        for(int i=0;i<n;i++){
+            if(a[i]<k){
+                count++;
+            }
+        }
+        while(i<n){
+            countProduct=a[i];
+            for(int j=i+1;j<n;j++){
+                countProduct*=a[j];
+                if(countProduct < k){
+                    count++;
+                }
+                else break;
+            }
+            i++;
+        }
+        return count;
+    }
+};
+
+Leetcode:-
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        for (int x : nums) {
+            map.put(x, map.getOrDefault(x, 0) + 1);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == 1) {
+                return entry.getKey();
+            }
+        }
+        
+        return -1;
+    }
+}

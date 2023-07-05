@@ -1,0 +1,39 @@
+Geeks Problem Link:- https://practice.geeksforgeeks.org/problems/stock-buy-and-sell2615/1
+Leet Problem Link:- https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/description/
+
+class Solution {
+  public:
+    int stockBuyAndSell(int n, vector<int> &prices) {
+        int maxi = 0, mini = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            if (prices[i] > mini)
+                maxi += prices[i] - mini;
+            mini = prices[i];
+        }
+        return maxi;
+}
+};
+#leetcode:-
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int n = nums.length;
+
+        int left = 0;
+        int zeros = 0;
+        int ans = 0;
+
+        for (int right = 0; right < n; right++) {
+            if (nums[right] == 0) {
+                zeros++;
+            }
+            while (zeros > 1) {
+                if (nums[left] == 0) {
+                    zeros--;
+                }
+                left++;
+            }
+            ans = Math.max(ans, right - left + 1 - zeros);
+        }
+        return (ans == n) ? ans - 1 : ans;
+    }
+}

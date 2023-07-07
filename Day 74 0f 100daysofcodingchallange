@@ -1,0 +1,46 @@
+Geeks Problem Link;- https://practice.geeksforgeeks.org/problems/merge-two-sorted-arrays-1587115620/1
+Leet Problem Link;-  https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/
+
+Geekscode:-
+
+class Solution{
+    public:
+        //Function to merge the arrays.
+        void merge(long long arr1[], long long arr2[], int n, int m) 
+        { 
+            int lo = n-1; int hi = 0;
+            while(lo>=0 && hi<m){
+                if(arr1[lo]>arr2[hi]){
+                    swap(arr1[lo], arr2[hi]);
+                    hi++;
+                }
+                lo--;
+            }
+            sort(arr1, arr1+n);
+            sort(arr2, arr2+m);
+        } 
+};
+
+Leetcode;-
+
+
+class Solution {
+    public int maxConsecutiveAnswers(String answerKey, int k) {
+        int maxFreq = 0;
+        int i = 0;
+        Map<Character, Integer> charCount = new HashMap<>();
+
+        for (int j = 0; j < answerKey.length(); j++) {
+            char currentChar = answerKey.charAt(j);
+            charCount.put(currentChar, charCount.getOrDefault(currentChar, 0) + 1);
+            maxFreq = Math.max(maxFreq, charCount.get(currentChar));
+
+            if (j - i + 1 > maxFreq + k) {
+                charCount.put(answerKey.charAt(i), charCount.get(answerKey.charAt(i)) - 1);
+                i++;
+            }
+        }
+
+        return answerKey.length() - i;
+    }
+}

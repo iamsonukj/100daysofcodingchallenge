@@ -1,0 +1,77 @@
+Geeks Problem Link;- https://practice.geeksforgeeks.org/problems/delete-middle-element-of-a-stack/1
+Leet Problem linkj;- https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/description/
+
+Geekscode;-
+//User function template for C++
+
+class Solution
+
+{
+    public:
+    //Function to delete middle element of a stack.
+    void deleteMid(stack<int>&s, int sizeOfStack)
+    {
+        // code here.. 
+        helper(s, sizeOfStack, 0);
+    }
+    void helper(std::stack<int>& s, int n, int idx) {
+        if (idx == n/2)
+        {
+            s.pop();
+            return;
+        }
+        
+        int x = s.top();
+        s.pop();
+        idx++;
+        
+        helper(s, n, idx);
+        
+        s.push(x);
+    }
+};
+
+Leetcode;-
+
+class Solution {
+    int[][] events;
+    public int maxValue(int[][] events, int k) {
+        this.events = events;
+        Arrays.sort(events, (a, b) -> a[0] - b[0]);
+        int n = events.length;
+        
+        dp = new int[k + 1][n];
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+        
+        return dfs(0, k);
+    }    
+    
+    private int[][] dp;
+    private int dfs(int index, int count) {
+        
+        if (count == 0 || index == events.length) {
+            return 0;
+        }
+        if (dp[count][index] != -1) {
+            return dp[count][index];
+        }
+        int nextIndex = binarySearch(events[index][1]);
+        dp[count][index] = Math.max( events[index][2] + dfs(nextIndex, count - 1), dfs(index + 1, count));
+        return dp[count][index];
+    }
+    
+    public int binarySearch( int target) {
+        int left = 0, right = events.length;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (events[mid][0] <= target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }   
+}

@@ -1,0 +1,108 @@
+Geeks Problem link:- https://practice.geeksforgeeks.org/problems/longest-repeating-subsequence2004/1
+Leet Problem Link:- https://leetcode.com/problems/lru-cache/description/
+
+//geeks code:-
+
+class Solution {
+	public:
+		int LongestRepeatingSubsequence(int x, int y, string s1, string s2){
+		    int i,j,dp[x+1][y+1];
+		    memset(dp,0,sizeof(dp));
+		    
+		    for(i=0;i<=x;++i){
+		        for(j=0;j<=y;++j){
+		            if(i == 0 || j == 0)
+		            dp[i][j]=0;
+		            
+		          else if(s1[i-1]==s2[j-1] && i!=j)
+		          dp[i][j]=1+dp[i-1][j-1];
+		          
+		          else 
+		              dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+		        }
+		    }
+		    
+		    return dp[x][y];
+		}
+		 int LongestRepeatingSubsequence(string str){
+		     
+		     int n=str.length();
+		     return LongestRepeatingSubsequence(n,n,str,str);
+		 }
+
+};
+//leet code:-
+
+class LRUCache {
+    class Node {
+        int key;
+        int val;
+        Node prev;
+        Node next;
+
+        Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
+    }
+
+    Node head = new Node(-1, -1);
+    Node tail = new Node(-1, -1);
+    int cap;
+    HashMap<Integer, Node> m = new HashMap<>();
+
+    public LRUCache(int capacity) {
+        cap = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    private void addNode(Node newnode) {
+        Node temp = head.next;
+
+        newnode.next = temp;
+        newnode.prev = head;
+
+        head.next = newnode;
+        temp.prev = newnode;
+    }
+
+    private void deleteNode(Node delnode) {
+        Node prevv = delnode.prev;
+        Node nextt = delnode.next;
+
+        prevv.next = nextt;
+        nextt.prev = prevv;
+    }
+
+    public int get(int key) {
+        if (m.containsKey(key)) {
+            Node resNode = m.get(key);
+            int ans = resNode.val;
+
+            m.remove(key);
+            deleteNode(resNode);
+            addNode(resNode);
+
+            m.put(key, head.next);
+            return ans;
+        }
+        return -1;
+    }
+
+    public void put(int key, int value) {
+        if (m.containsKey(key)) {
+            Node curr = m.get(key);
+            m.remove(key);
+            deleteNode(curr);
+        }
+
+        if (m.size() == cap) {
+            m.remove(tail.prev.key);
+            deleteNode(tail.prev);
+        }
+
+        addNode(new Node(key, value));
+        m.put(key, head.next);
+    }
+}

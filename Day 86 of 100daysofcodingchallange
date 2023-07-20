@@ -1,0 +1,43 @@
+Geeks Problem Link;- https://practice.geeksforgeeks.org/problems/non-repeating-character-1587115620/1
+Leet Problem Link;- https://leetcode.com/problems/asteroid-collision/description/
+
+///////////////////////////////////////////////////////////Geeks code;-
+
+class Solution
+{
+    public:
+    //Function to find the first non-repeating character in a string.
+    char nonrepeatingCharacter(string S)
+    {
+       unordered_map<char,int> umap;
+       char rk = '$';
+       for(int i = 0 ; i <S.length() ; i++){
+           umap[S[i]]++;
+       }
+        for (int i = 0; i < S.length(); i++)
+        {
+            if (umap[S[i]] == 1)
+            {
+                return S[i];
+            }
+        }
+       
+return rk;}
+
+};
+
+///////////////////////////////////////////////////////////leetcode;-
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+      LinkedList<Integer> list=new  LinkedList<>();
+      for (int i : asteroids) {
+            while (!list.isEmpty() && list.getLast() > 0 && list.getLast() < -i)
+                list.pollLast();
+            if (list.isEmpty() || i > 0 || list.getLast() < 0)
+                list.add(i);
+            else if (i < 0 && list.getLast() == -i)
+                list.pollLast();
+        }
+        return list.stream().mapToInt(i->i).toArray();
+    }
+}

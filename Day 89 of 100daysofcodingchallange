@@ -1,0 +1,105 @@
+Geeks Problem Link;- https://practice.geeksforgeeks.org/problems/given-a-linked-list-of-0s-1s-and-2s-sort-it/1
+Leet Problem Link:- https://leetcode.com/problems/all-possible-full-binary-trees/description/
+//////////////geekscode;-
+
+/*
+ 
+  Node is defined as
+  struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+class Solution
+{
+    public:
+    //Function to sort a linked list of 0s, 1s and 2s.
+    Node* segregate(struct Node *head) {
+    if (!head || !(head->next))
+        return head;
+  
+    //creating three dummy nodes to point to beginning of three linked lists. 
+    Node* zeroD = new Node(0); 
+    Node* oneD = new Node(0); 
+    Node* twoD = new Node(0); 
+  
+    //initializing current pointers for three lists. 
+    Node* zero = zeroD, *one = oneD, *two = twoD; 
+  
+    //traversing over the list with a pointer. 
+    Node* curr = head; 
+    while (curr) { 
+        
+        //we check data at current node and store the node in it's respective
+        //list and update the link part of that list.
+        if (curr->data == 0) { 
+            zero->next = curr; 
+            zero = zero->next; 
+            curr = curr->next; 
+        }
+        else if (curr->data == 1) { 
+            one->next = curr; 
+            one = one->next; 
+            curr = curr->next; 
+        } 
+        else { 
+            two->next = curr; 
+            two = two->next; 
+            curr = curr->next; 
+        } 
+    } 
+  
+    //attaching the three lists containing 0s,1s and 2s respectively.
+    zero->next = (oneD->next) ? (oneD->next) : (twoD->next); 
+    one->next = twoD->next; 
+    two->next = NULL; 
+  
+    //updating the head of the list.
+    head = zeroD->next; 
+  
+    //deleting dummy nodes.
+    delete zeroD; 
+    delete oneD; 
+    delete twoD; 
+  
+    return head;
+}
+
+};
+/////////////leetcode:-
+
+class Solution {
+    static Map<Integer, List<TreeNode>> saved = new HashMap<>();
+    
+    public List<TreeNode> allPossibleFBT(int n) {
+        if (n%2==0)
+            return new ArrayList<>();
+
+        if (!saved.containsKey(n)) {
+            List<TreeNode> list = new ArrayList<>();
+            
+            if (n==1)
+                list.add(new TreeNode(0));
+            else {
+                for (int i=1; i<=n-1; i+=2) {
+                    List<TreeNode> lTrees = allPossibleFBT(i);
+                    List<TreeNode> rTrees = allPossibleFBT(n-i-1);
+
+                    for (TreeNode lt: lTrees) {
+                        for (TreeNode rt: rTrees) {
+                            list.add(new TreeNode(0, lt, rt));
+                        }
+                    }
+                }
+            }
+
+            saved.put(n, list);
+        }
+        return saved.get(n);
+    }
+}

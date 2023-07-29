@@ -1,0 +1,70 @@
+Geeks Problem Link;- https://practice.geeksforgeeks.org/problems/median-of-bst/1
+Leet Problem Link:- https://leetcode.com/problems/soup-servings/description/
+
+/////////////Geeks code:-
+/*
+Structure of the binary Search Tree is as
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+// your task is to complete the Function
+// Function should return median of the BST
+float findMedian(struct Node *root)
+{
+      //Code here
+      
+    queue<Node *> q;
+    q.push(root);
+    vector<int> v;
+    while(!q.empty()){
+        Node *ptr = q.front();
+        q.pop();
+        if (ptr->right!=nullptr) q.push(ptr->right);
+        if (ptr->left != nullptr) q.push(ptr->left);
+        v.push_back(ptr->data);
+    }
+    sort(v.begin(), v.end());
+    float n=v.size();
+    if (v.size()%2==1) return v[(n-1)/2];
+    return (v[n/2] + v[n/2-1])/2.0;
+}
+///////////////leet code:-
+
+class Solution {
+    private HashMap<Pair<Integer, Integer>, Double> memo = new HashMap<>();
+
+    public double soupServings(int N) {
+        if (N > 4800) {
+            return 1.0;
+        }
+        N = (N + 24) / 25;
+
+        return dp(N, N);
+    }
+
+    private double dp(int a, int b) {
+        if (a <= 0 && b <= 0) {
+            return 0.5;
+        }
+        if (a <= 0) {
+            return 1.0;
+        }
+        if (b <= 0) {
+            return 0.0;
+        }
+        Pair<Integer, Integer> key = new Pair<>(a, b);
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+        memo.put(key, 0.25 * (dp(a-4, b) + dp(a-3, b-1) + dp(a-2, b-2) + dp(a-1, b-3)));
+        return memo.get(key);
+    }
+}
